@@ -8,9 +8,9 @@ Ver [`ARCHITECTURE.md`](./ARCHITECTURE.md) para el detalle técnico de cada deci
 
 - [x] Definir stack técnico y arquitectura (`ARCHITECTURE.md`).
 - [x] Scaffold del monorepo (este repositorio).
-- [ ] Crear cuentas de servicios: Vercel, Railway, Neon/Supabase, Upstash, Culqi (sandbox), Cloudflare.
-- [ ] Registrar el dominio de la marca.
-- [ ] Definir identidad visual mínima (logo, paleta, tipografía) para poder maquetar el storefront.
+- [x] Crear cuentas de servicios: Vercel, Railway, Neon/Supabase, Upstash, Culqi (sandbox), Cloudflare.
+- [x] Registrar el dominio de la marca.
+- [x] Definir identidad visual mínima (logo, paleta, tipografía) para poder maquetar el storefront.
 
 ### Fase 1 — MVP Perú
 
