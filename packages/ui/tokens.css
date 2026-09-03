@@ -1,0 +1,60 @@
+/**
+ * packages/ui/tokens.css
+ *
+ * Tokens de marca TEKKO. Fuente única de verdad para color, tipografía
+ * y bordes — no se deben declarar estos valores hardcodeados en ningún
+ * componente ni en tailwind.config.ts, siempre referenciar estas variables.
+ *
+ * Se importa en globals.css de cada app, ANTES de las directivas de Tailwind.
+ */
+
+@import url('https://fonts.googleapis.com/css2?family=Anton&family=Space+Mono:wght@400;700&display=swap');
+
+:root {
+  /* ---- Superficie ---- */
+  --tekko-black: #0A0A0A;      /* fondo base de toda la app */
+  --tekko-surface: #141414;    /* nav, paneles, cards elevadas un nivel */
+  --tekko-surface-2: #1C1C1C;  /* swatches/placeholders dentro de paneles */
+
+  /* ---- Texto ---- */
+  --tekko-bone: #F2F0EB;         /* texto principal */
+  --tekko-bone-muted: #8C8880;   /* texto secundario — gris cálido, no gris frío */
+
+  /* ---- Acento ----
+     Regla de uso: un solo elemento con acento violeta por vista
+     (CTA principal o una línea de estado). Nunca como fondo/wash. */
+  --tekko-violet: #9B4DFF;       /* "violeta luna llena" */
+  --tekko-violet-hover: #B876FF;
+
+  /* ---- Líneas / bordes ---- */
+  --tekko-line: #2A2A2A;
+
+  /* ---- Semántico ----
+     Reservado para alertas reales (errores de formulario, etc).
+     No usar para decoración. */
+  --tekko-danger: #E8232B;
+
+  /* ---- Paletas alternas (NO usar en la marca base) ----
+     Reservadas para gráficos de prendas/drops puntuales, ver
+     0002-identidad-visual.md. No referenciar en componentes de UI. */
+  --tekko-alt-red: #E8232B;
+  --tekko-alt-teal: #00C2B2;
+  --tekko-alt-orange: #FF6A1A;
+
+  /* ---- Tipografía ----
+     Anton: display — titulares, wordmark, precio destacado. Se usa
+     grande y poco frecuente, es el elemento con más personalidad.
+     Space Mono: todo lo demás — nav, tags, precios de catálogo, forms.
+     Da el aire "de terminal" que conecta con el origen dev del proyecto. */
+  --font-display: 'Anton', sans-serif;
+  --font-mono: 'Space Mono', monospace;
+
+  /* ---- Bordes ----
+     La marca no usa esquinas redondeadas en ningún componente. */
+  --radius-base: 0px;
+
+  /* ---- Grid de líneas ----
+     Grosor de línea compartido entre home/catálogo/producto/cuenta
+     para los grids de producto y las galerías de miniatura. */
+  --grid-line-width: 1px;
+}

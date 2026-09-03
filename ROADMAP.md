@@ -33,6 +33,7 @@ Objetivo: vender el primer producto real a un comprador peruano.
 Objetivo: operar de forma sostenible en Perú antes de expandirse.
 
 - [ ] Integrar **Yape** como método de pago (fast follow post-lanzamiento, ver `ARCHITECTURE.md` §4).
+- [ ] **Personalización de productos** (iniciativa grande, requiere su propio ADR de alcance antes de construir): editor donde el cliente diseñe camisetas/hoodies en blanco, colocando imágenes o gráficos propios de la marca dentro de zonas de impresión predefinidas. Evaluado en sesión de chat: arrancar con posicionamiento manual tipo Printful (sin IA); boceto generado por IA queda como posible mejora posterior, no como base — implica costo por generación y sigue necesitando conversión manual a diseño imprimible.
 - [ ] Automatizar cotización/generación de guías de envío (API Olva o Shalom).
 - [ ] Códigos de descuento y promociones.
 - [ ] Reviews de producto.

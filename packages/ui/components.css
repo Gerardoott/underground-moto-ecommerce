@@ -1,0 +1,105 @@
+/**
+ * packages/ui/components.css
+ *
+ * Clases compuestas para los patrones que se repiten en las 7 pantallas
+ * centrales (home, catálogo, producto, carrito, checkout, login, cuenta).
+ * Los nombres de clase son 1:1 con los mockups HTML entregados, para que
+ * la migración a componentes React sea una traducción directa.
+ *
+ * Se importa DESPUÉS de las directivas @tailwind (base/components/utilities).
+ */
+
+@layer components {
+
+  /* ---------- Botones ---------- */
+
+  .btn-primary {
+    @apply bg-violet text-black font-mono text-[13px] font-bold tracking-wide
+           px-7 py-3.5 border-none cursor-pointer transition-colors duration-150;
+  }
+  .btn-primary:hover:not(:disabled) {
+    @apply bg-violet-hover;
+  }
+
+  .btn-secondary {
+    @apply bg-transparent text-bone border border-bone font-mono text-[13px]
+           font-bold px-7 py-3.5 cursor-pointer transition-colors duration-150;
+  }
+  .btn-secondary:hover:not(:disabled) {
+    @apply bg-bone text-black;
+  }
+
+  .btn-ghost {
+    @apply bg-transparent text-bone font-mono text-[13px] font-bold px-1 py-3.5
+           cursor-pointer underline decoration-transparent transition-colors duration-150;
+  }
+  .btn-ghost:hover:not(:disabled) {
+    @apply decoration-bone;
+  }
+
+  /* Estado disabled compartido: SOLO baja opacidad, nunca cambia de color.
+     Aplica a las tres variantes de botón. */
+  .btn-primary:disabled,
+  .btn-secondary:disabled,
+  .btn-ghost:disabled {
+    @apply opacity-35 cursor-not-allowed pointer-events-none;
+  }
+
+  /* ---------- Tags de atributo (talla, filtros) ---------- */
+
+  .attr-tag {
+    @apply font-mono text-xs px-4 py-2 border border-line text-bone-muted
+           bg-transparent cursor-pointer transition-colors duration-150;
+  }
+  .attr-tag:hover:not(:disabled) {
+    @apply border-bone-muted text-bone;
+  }
+  .attr-tag.is-active {
+    @apply bg-bone text-black border-bone;
+  }
+  .attr-tag:disabled {
+    @apply opacity-30 line-through cursor-not-allowed;
+  }
+
+  /* ---------- Tags de estado ---------- */
+
+  .status-tag {
+    @apply font-mono text-[11px] px-2.5 py-1 inline-block;
+  }
+  .status-tag--nuevo {
+    @apply text-violet border border-violet;
+  }
+  .status-tag--normal {
+    @apply text-bone-muted border border-line;
+  }
+  .status-tag--agotado {
+    @apply text-bone-muted border border-line line-through;
+  }
+
+  /* Mismo componente que status-tag, vocabulario de pedido en vez de stock
+     (ver pantalla de cuenta). Reutiliza .status-tag como base + este modificador. */
+  .status-tag--procesando {
+    @apply text-bone border border-bone;
+  }
+  .status-tag--enviado {
+    @apply text-violet border border-violet;
+  }
+  .status-tag--entregado {
+    @apply text-bone-muted border border-line;
+  }
+
+  /* ---------- Panel base (nav, cards, resúmenes) ---------- */
+
+  .panel {
+    @apply bg-surface border border-line;
+  }
+
+  /* ---------- Grid de líneas (product grid, galería, direcciones) ---------- */
+
+  .line-grid {
+    @apply grid gap-px bg-line;
+  }
+  .line-grid > * {
+    @apply bg-black;
+  }
+}

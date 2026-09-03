@@ -1,6 +1,12 @@
+@import "../../../../packages/ui/tokens.css";
+
 @import "tailwindcss/base";
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
+
+body {
+  @apply bg-black text-bone font-mono antialiased;
+}
 
 @layer utilities {
   /* Chrome, Safari and Opera */
@@ -35,9 +41,9 @@
   select:-webkit-autofill,
   select:-webkit-autofill:hover,
   select:-webkit-autofill:focus {
-    border: 1px solid #212121;
-    -webkit-text-fill-color: #212121;
-    -webkit-box-shadow: 0 0 0px 1000px #fff inset;
+    border: 1px solid var(--tekko-line);
+    -webkit-text-fill-color: var(--tekko-bone);
+    -webkit-box-shadow: 0 0 0px 1000px var(--tekko-surface) inset;
     transition: background-color 5000s ease-in-out 0s;
   }
 
@@ -50,12 +56,93 @@
 }
 
 @layer components {
+  /* ---------- Componentes de marca (fuente: packages/ui/components.css) ---------- */
+
+  .btn-primary {
+    @apply bg-violet text-black font-mono text-[13px] font-bold tracking-wide
+           px-7 py-3.5 border-none cursor-pointer transition-colors duration-150;
+  }
+  .btn-primary:hover:not(:disabled) {
+    @apply bg-violet-hover;
+  }
+
+  .btn-secondary {
+    @apply bg-transparent text-bone border border-bone font-mono text-[13px]
+           font-bold px-7 py-3.5 cursor-pointer transition-colors duration-150;
+  }
+  .btn-secondary:hover:not(:disabled) {
+    @apply bg-bone text-black;
+  }
+
+  .btn-ghost {
+    @apply bg-transparent text-bone font-mono text-[13px] font-bold px-1 py-3.5
+           cursor-pointer underline decoration-transparent transition-colors duration-150;
+  }
+  .btn-ghost:hover:not(:disabled) {
+    @apply decoration-bone;
+  }
+
+  .btn-primary:disabled,
+  .btn-secondary:disabled,
+  .btn-ghost:disabled {
+    @apply opacity-35 cursor-not-allowed pointer-events-none;
+  }
+
+  .attr-tag {
+    @apply font-mono text-xs px-4 py-2 border border-line text-bone-muted
+           bg-transparent cursor-pointer transition-colors duration-150;
+  }
+  .attr-tag:hover:not(:disabled) {
+    @apply border-bone-muted text-bone;
+  }
+  .attr-tag.is-active {
+    @apply bg-bone text-black border-bone;
+  }
+  .attr-tag:disabled {
+    @apply opacity-30 line-through cursor-not-allowed;
+  }
+
+  .status-tag {
+    @apply font-mono text-[11px] px-2.5 py-1 inline-block;
+  }
+  .status-tag--nuevo {
+    @apply text-violet border border-violet;
+  }
+  .status-tag--normal {
+    @apply text-bone-muted border border-line;
+  }
+  .status-tag--agotado {
+    @apply text-bone-muted border border-line line-through;
+  }
+  .status-tag--procesando {
+    @apply text-bone border border-bone;
+  }
+  .status-tag--enviado {
+    @apply text-violet border border-violet;
+  }
+  .status-tag--entregado {
+    @apply text-bone-muted border border-line;
+  }
+
+  .panel {
+    @apply bg-surface border border-line;
+  }
+
+  .line-grid {
+    @apply grid gap-px bg-line;
+  }
+  .line-grid > * {
+    @apply bg-black;
+  }
+
+  /* ---------- Componentes propios del starter de Medusa ---------- */
+
   .content-container {
     @apply max-w-[1440px] w-full mx-auto px-6;
   }
 
   .contrast-btn {
-    @apply px-4 py-2 border border-black rounded-full hover:bg-black hover:text-white transition-colors duration-200 ease-in;
+    @apply px-4 py-2 border border-black rounded-full hover:bg-black hover:text-bone transition-colors duration-200 ease-in;
   }
 
   .text-xsmall-regular {

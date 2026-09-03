@@ -1,7 +1,6 @@
 import { Container, clx } from "@medusajs/ui"
 import Image from "next/image"
 import React from "react"
-
 import PlaceholderImage from "@modules/common/icons/placeholder-image"
 
 type ThumbnailProps = {
@@ -27,7 +26,7 @@ const Thumbnail: React.FC<ThumbnailProps> = ({
   return (
     <Container
       className={clx(
-        "relative w-full overflow-hidden p-4 bg-ui-bg-subtle shadow-elevation-card-rest rounded-large group-hover:shadow-elevation-card-hover transition-shadow ease-in-out duration-150",
+        "relative w-full overflow-hidden p-4 bg-surface border border-line group-hover:border-bone-muted transition-colors duration-150",
         className,
         {
           "aspect-[11/14]": isFeatured,
@@ -61,7 +60,7 @@ const ImageOrPlaceholder = ({
       fill
     />
   ) : (
-    <div className="w-full h-full absolute inset-0 flex items-center justify-center">
+    <div className="w-full h-full absolute inset-0 flex items-center justify-center text-bone-muted">
       <PlaceholderImage size={size === "small" ? 16 : 24} />
     </div>
   )

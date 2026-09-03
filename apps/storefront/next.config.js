@@ -1,10 +1,8 @@
-const checkEnvVariables = require("./check-env-variables")
+const path = require("path")
 
+const checkEnvVariables = require("./check-env-variables")
 checkEnvVariables()
 
-/**
- * Medusa Cloud-related environment variables
- */
 const S3_HOSTNAME = process.env.MEDUSA_CLOUD_S3_HOSTNAME
 const S3_PATHNAME = process.env.MEDUSA_CLOUD_S3_PATHNAME
 
@@ -24,6 +22,7 @@ const nextConfig = {
   typescript: {
     ignoreBuildErrors: true,
   },
+  outputFileTracingRoot: path.resolve(__dirname, "../.."),
   images: {
     remotePatterns: [
       {
