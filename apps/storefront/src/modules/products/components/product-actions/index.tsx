@@ -1,41 +1,189 @@
-import { HttpTypes } from "@medusajs/types"
-import { Container } from "@medusajs/ui"
-import Image from "next/image"
+"use client"
 
-type ImageGalleryProps = {
-  images: HttpTypes.StoreProductImage[]
+import { addToCart } from "@lib/data/cart"
+import { useIntersection } from "@lib/hooks/use-in-view"
+import { HttpTypes } from "@medusajs/types"
+import Divider from "@modules/common/components/divider"
+import OptionSelect from "@modules/products/components/product-actions/option-select"
+import { isEqual } from "lodash"
+import { useParams, usePathname, useSearchParams } from "next/navigation"
+import { useEffect, useMemo, useRef, useState } from "react"
+import ProductPrice from "../product-price"
+import MobileActions from "./mobile-actions"
+import { useRouter } from "next/navigation"
+
+type ProductActionsProps = {
+  product: HttpTypes.StoreProduct
+  region: HttpTypes.StoreRegion
+  disabled?: boolean
 }
 
-const ImageGallery = ({ images }: ImageGalleryProps) => {
+const optionsAsKeymap = (
+  variantOptions: HttpTypes.StoreProductVariant["options"]
+) => {
+  return variantOptions?.reduce((acc: Record<string, string>, varopt: any) => {
+    acc[varopt.option_id] = varopt.value
+    return acc
+  }, {})
+}
+
+export default function ProductActions({
+  product,
+  disabled,
+}: ProductActionsProps) {
+  const router = useRouter()
+  const pathname = usePathname()
+  const searchParams = useSearchParams()
+
+  const [options, setOptions] = useState<Record<string, string | undefined>>({})
+  const [isAdding, setIsAdding] = useState(false)
+  const countryCode = useParams().countryCode as string
+
+  useEffect(() => {
+    if (product.variants?.length === 1) {
+      const variantOptions = optionsAsKeymap(product.variants[0].options)
+      setOptions(variantOptions ?? {})
+    }
+  }, [product.variants])
+
+  const selectedVariant = useMemo(() => {
+    if (!product.variants || product.variants.length === 0) {
+      return
+    }
+
+    return product.variants.find((v) => {
+      const variantOptions = optionsAsKeymap(v.options)
+      return isEqual(variantOptions, options)
+    })
+  }, [product.variants, options])
+
+  const setOptionValue = (optionId: string, value: string) => {
+    setOptions((prev) => ({
+      ...prev,
+      [optionId]: value,
+    }))
+  }
+
+  const isValidVariant = useMemo(() => {
+    return product.variants?.some((v) => {
+      const variantOptions = optionsAsKeymap(v.options)
+      return isEqual(variantOptions, options)
+    })
+  }, [product.variants, options])
+
+  useEffect(() => {
+    const params = new URLSearchParams(searchParams.toString())
+    const value = isValidVariant ? selectedVariant?.id : null
+
+    if (params.get("v_id") === value) {
+      return
+    }
+
+    if (value) {
+      params.set("v_id", value)
+    } else {
+      params.delete("v_id")
+    }
+
+    router.replace(pathname + "?" + params.toString())
+  }, [selectedVariant, isValidVariant])
+
+  const inStock = useMemo(() => {
+    if (selectedVariant && !selectedVariant.manage_inventory) {
+      return true
+    }
+
+    if (selectedVariant?.allow_backorder) {
+      return true
+    }
+
+    if (
+      selectedVariant?.manage_inventory &&
+      (selectedVariant?.inventory_quantity || 0) > 0
+    ) {
+      return true
+    }
+
+    return false
+  }, [selectedVariant])
+
+  const actionsRef = useRef<HTMLDivElement>(null)
+
+  const inView = useIntersection(actionsRef, "0px")
+
+  const handleAddToCart = async () => {
+    if (!selectedVariant?.id) return null
+
+    setIsAdding(true)
+
+    await addToCart({
+      variantId: selectedVariant.id,
+      quantity: 1,
+      countryCode,
+    })
+
+    setIsAdding(false)
+  }
+
   return (
-    <div className="flex items-start relative">
-      <div className="flex flex-col flex-1 small:mx-16 gap-y-4">
-        {images.map((image, index) => {
-          return (
-            <Container
-              key={image.id}
-              className="relative aspect-[29/34] w-full overflow-hidden bg-surface border border-line"
-              id={image.id}
-            >
-              {!!image.url && (
-                <Image
-                  src={image.url}
-                  priority={index <= 2 ? true : false}
-                  className="absolute inset-0"
-                  alt={`Product image ${index + 1}`}
-                  fill
-                  sizes="(max-width: 576px) 280px, (max-width: 768px) 360px, (max-width: 992px) 480px, 800px"
-                  style={{
-                    objectFit: "cover",
-                  }}
-                />
-              )}
-            </Container>
-          )
-        })}
+    <>
+      <div className="flex flex-col gap-y-4" ref={actionsRef}>
+        <div>
+          {(product.variants?.length ?? 0) > 1 && (
+            <div className="flex flex-col gap-y-4">
+              {(product.options || []).map((option) => {
+                return (
+                  <div key={option.id}>
+                    <OptionSelect
+                      option={option}
+                      current={options[option.id]}
+                      updateOption={setOptionValue}
+                      title={option.title ?? ""}
+                      data-testid="product-options"
+                      disabled={!!disabled || isAdding}
+                    />
+                  </div>
+                )
+              })}
+              <Divider />
+            </div>
+          )}
+        </div>
+
+        <ProductPrice product={product} variant={selectedVariant} />
+
+        <button
+          onClick={handleAddToCart}
+          disabled={
+            !inStock ||
+            !selectedVariant ||
+            !!disabled ||
+            isAdding ||
+            !isValidVariant
+          }
+          className="btn-primary w-full"
+          data-testid="add-product-button"
+        >
+          {isAdding
+            ? "Agregando..."
+            : !selectedVariant && !options
+            ? "Selecciona una opción"
+            : !inStock || !isValidVariant
+            ? "Agotado"
+            : "Agregar al carrito"}
+        </button>
+        <MobileActions
+          product={product}
+          variant={selectedVariant}
+          options={options}
+          updateOptions={setOptionValue}
+          inStock={inStock}
+          handleAddToCart={handleAddToCart}
+          isAdding={isAdding}
+          show={!inView}
+          optionsDisabled={!!disabled || isAdding}
+        />
       </div>
-    </div>
+    </>
   )
 }
-
-export default ImageGallery
