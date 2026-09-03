@@ -1,22 +1,19 @@
-import { Heading, Text } from "@medusajs/ui"
-
-import InteractiveLink from "@modules/common/components/interactive-link"
+import LocalizedClientLink from "@modules/common/components/localized-client-link"
 
 const EmptyCartMessage = () => {
   return (
     <div className="py-48 px-2 flex flex-col justify-center items-start" data-testid="empty-cart-message">
-      <Heading
-        level="h1"
-        className="flex flex-row text-3xl-regular gap-x-2 items-baseline"
-      >
-        Cart
-      </Heading>
-      <Text className="text-base-regular mt-4 mb-6 max-w-[32rem]">
-        You don&apos;t have anything in your cart. Let&apos;s change that, use
-        the link below to start browsing our products.
-      </Text>
+      <h1 className="font-display text-3xl uppercase text-bone">
+        Carrito
+      </h1>
+      <p className="font-mono text-sm text-bone-muted mt-4 mb-6 max-w-[32rem]">
+        Todavía no tienes nada en tu carrito. Explora el catálogo y encuentra
+        tu próxima prenda.
+      </p>
       <div>
-        <InteractiveLink href="/store">Explore products</InteractiveLink>
+        <LocalizedClientLink href="/store" className="btn-primary">
+          Explorar catálogo
+        </LocalizedClientLink>
       </div>
     </div>
   )
