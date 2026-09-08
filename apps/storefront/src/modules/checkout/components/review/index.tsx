@@ -1,6 +1,6 @@
 "use client"
 
-import { Heading, Text, clx } from "@medusajs/ui"
+import { clx } from "@medusajs/ui"
 
 import PaymentButton from "../payment-button"
 import { useSearchParams } from "next/navigation"
@@ -19,30 +19,29 @@ const Review = ({ cart }: { cart: any }) => {
     (cart.payment_collection || paidByGiftcard)
 
   return (
-    <div className="bg-white">
+    <div className="bg-black">
       <div className="flex flex-row items-center justify-between mb-6">
-        <Heading
-          level="h2"
+        <h2
           className={clx(
-            "flex flex-row text-3xl-regular gap-x-2 items-baseline",
+            "font-display text-2xl uppercase text-bone flex flex-row gap-x-2 items-baseline",
             {
               "opacity-50 pointer-events-none select-none": !isOpen,
             }
           )}
         >
-          Review
-        </Heading>
+          Revisión
+        </h2>
       </div>
       {isOpen && previousStepsCompleted && (
         <>
           <div className="flex items-start gap-x-1 w-full mb-6">
             <div className="w-full">
-              <Text className="txt-medium-plus text-ui-fg-base mb-1">
-                By clicking the Place Order button, you confirm that you have
-                read, understand and accept our Terms of Use, Terms of Sale and
-                Returns Policy and acknowledge that you have read Medusa
-                Store&apos;s Privacy Policy.
-              </Text>
+              <p className="font-mono text-xs text-bone-muted mb-1">
+                Al hacer clic en "Confirmar pedido", confirmas que has leído,
+                entiendes y aceptas nuestros Términos de Uso, Términos de
+                Venta y Política de Devoluciones, y que has leído la Política
+                de Privacidad de Tekko.
+              </p>
             </div>
           </div>
           <PaymentButton cart={cart} data-testid="submit-order-button" />

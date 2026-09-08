@@ -1,11 +1,10 @@
-import { Badge } from "@medusajs/ui"
-
 const PaymentTest = ({ className }: { className?: string }) => {
   return (
-    <Badge color="orange" className={className}>
-      <span className="font-semibold">Attention:</span> For testing purposes
-      only.
-    </Badge>
+    <span
+      className={`inline-block font-mono text-[10px] border border-danger text-danger px-2 py-0.5 ${className ?? ""}`}
+    >
+      <span className="font-bold">Atención:</span> solo para fines de prueba.
+    </span>
   )
 }
 
