@@ -1,8 +1,16 @@
 "use client"
 
-import { Button } from "@medusajs/ui"
 import React from "react"
 import { useFormStatus } from "react-dom"
+import { clx } from "@medusajs/ui"
+
+const variantClasses: Record<string, string> = {
+  primary: "btn-primary",
+  secondary: "btn-secondary",
+  transparent: "btn-ghost",
+  danger:
+    "bg-transparent text-danger border border-danger font-mono text-[13px] font-bold px-7 py-3.5 cursor-pointer hover:bg-danger hover:text-black transition-colors duration-150",
+}
 
 export function SubmitButton({
   children,
@@ -18,15 +26,15 @@ export function SubmitButton({
   const { pending } = useFormStatus()
 
   return (
-    <Button
-      size="large"
-      className={className}
+    <button
       type="submit"
-      isLoading={pending}
-      variant={variant || "primary"}
+      disabled={pending}
+      className={clx(variantClasses[variant || "primary"], className, {
+        "opacity-60 cursor-wait": pending,
+      })}
       data-testid={dataTestId}
     >
-      {children}
-    </Button>
+      {pending ? "Cargando..." : children}
+    </button>
   )
 }

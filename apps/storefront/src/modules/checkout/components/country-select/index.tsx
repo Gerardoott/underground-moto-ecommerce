@@ -5,12 +5,7 @@ import NativeSelect, {
 } from "@modules/common/components/native-select"
 import { HttpTypes } from "@medusajs/types"
 
-const CountrySelect = forwardRef<
-  HTMLSelectElement,
-  NativeSelectProps & {
-    region?: HttpTypes.StoreRegion
-  }
->(({ placeholder = "Country", region, defaultValue, ...props }, ref) => {
+const CountrySelect = forwardRef<HTMLSelectElement, NativeSelectProps & { region?: HttpTypes.StoreRegion }>(({ placeholder = "País", region, defaultValue, ...props }, ref) => {
   const innerRef = useRef<HTMLSelectElement>(null)
 
   useImperativeHandle<HTMLSelectElement | null, HTMLSelectElement | null>(
