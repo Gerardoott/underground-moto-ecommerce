@@ -19,7 +19,7 @@ Objetivo: vender el primer producto real a un comprador peruano.
 - [x] Scaffold de `apps/backend` con Medusa y modelado de catálogo (productos, variantes de talla/color, colecciones).
 - [x] Scaffold de `apps/storefront` con Next.js consumiendo la Store API de Medusa.
 - [x] Diseño del storefront (estética underground/motera): home, catálogo, PDP, carrito — identidad de marca aplicada de punta a punta (paleta, tipografía Anton/Space Mono, sistema de tokens en `packages/ui`).
-- [ ] Checkout con **Culqi** (tarjetas) — **en progreso**: direcciones y envío ya diseñados y funcionando de punta a punta; falta el paso de pago (integración real con Culqi) y revisión final del pedido.
+- [ ] Checkout con **Culqi** (tarjetas) — **en progreso**: flujo completo de checkout funcionando de punta a punta (dirección, envío, pago, revisión, confirmación de pedido) con proveedor de pago Manual, incluyendo primera orden de prueba real creada (order #1). Falta únicamente conectar Culqi como proveedor de pago real, reemplazando/sumándose al Manual.
 - [ ] Panel admin de Medusa configurado para gestión de pedidos e inventario.
 - [x] Envíos: proceso manual configurado y probado — ubicación "Almacén Lima" con canal de ventas y proveedor Manual conectados, zona de servicio Perú, opción "Envío estándar" a S/12. Confirmado funcionando en el checkout real.
 - [ ] Autenticación de clientes (cuenta, historial de pedidos) y checkout como invitado — login y registro ya diseñados; falta verificar el flujo completo con historial de pedidos.
