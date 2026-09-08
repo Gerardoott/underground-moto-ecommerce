@@ -4,7 +4,7 @@ Ver [`ARCHITECTURE.md`](./ARCHITECTURE.md) para el detalle técnico de cada deci
 
 ## Fases
 
-### Fase 0 — Fundamentos (actual)
+### Fase 0 — Fundamentos (completa)
 
 - [x] Definir stack técnico y arquitectura (`ARCHITECTURE.md`).
 - [x] Scaffold del monorepo (este repositorio).
@@ -16,15 +16,15 @@ Ver [`ARCHITECTURE.md`](./ARCHITECTURE.md) para el detalle técnico de cada deci
 
 Objetivo: vender el primer producto real a un comprador peruano.
 
-- [ ] Scaffold de `apps/backend` con Medusa (ver su README) y modelado de catálogo (productos, variantes de talla/color, colecciones).
-- [ ] Scaffold de `apps/storefront` con Next.js consumiendo la Store API de Medusa.
-- [ ] Diseño del storefront (estética underground/motera): home, catálogo, PDP, carrito.
-- [ ] Checkout con **Culqi** (tarjetas).
+- [x] Scaffold de `apps/backend` con Medusa y modelado de catálogo (productos, variantes de talla/color, colecciones).
+- [x] Scaffold de `apps/storefront` con Next.js consumiendo la Store API de Medusa.
+- [x] Diseño del storefront (estética underground/motera): home, catálogo, PDP, carrito — identidad de marca aplicada de punta a punta (paleta, tipografía Anton/Space Mono, sistema de tokens en `packages/ui`).
+- [ ] Checkout con **Culqi** (tarjetas) — **en progreso**: direcciones y envío ya diseñados y funcionando de punta a punta; falta el paso de pago (integración real con Culqi) y revisión final del pedido.
 - [ ] Panel admin de Medusa configurado para gestión de pedidos e inventario.
-- [ ] Envíos: proceso manual (cotización y coordinación fuera de línea con Olva/Shalom) — no requiere integración de API todavía.
-- [ ] Autenticación de clientes (cuenta, historial de pedidos) y checkout como invitado.
+- [x] Envíos: proceso manual configurado y probado — ubicación "Almacén Lima" con canal de ventas y proveedor Manual conectados, zona de servicio Perú, opción "Envío estándar" a S/12. Confirmado funcionando en el checkout real.
+- [ ] Autenticación de clientes (cuenta, historial de pedidos) y checkout como invitado — login y registro ya diseñados; falta verificar el flujo completo con historial de pedidos.
 - [ ] Notificaciones por email (confirmación de pedido) — Medusa notification module.
-- [ ] SEO básico (metadata, sitemap, datos estructurados de producto).
+- [ ] SEO básico (metadata, sitemap, datos estructurados de producto) — **parcial**: título de la home ya actualizado, faltan categorías/colecciones/producto individual.
 - [ ] Analítica básica (PostHog) + monitoreo de errores (Sentry).
 - [ ] Deploy: storefront en Vercel, backend en Railway, CI en GitHub Actions.
 
