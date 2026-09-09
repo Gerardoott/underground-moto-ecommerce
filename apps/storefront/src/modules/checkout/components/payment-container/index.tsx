@@ -126,3 +126,106 @@ export const StripeCardContainer = ({
     </PaymentContainer>
   )
 }
+
+export const CulqiCardContainer = ({
+  paymentProviderId,
+  selectedPaymentOptionId,
+  paymentInfoMap,
+  disabled = false,
+  cartId,
+  amount,
+  setError,
+  setCardComplete,
+}: Omit<PaymentContainerProps, "children"> & {
+  cartId: string
+  amount: number
+  setError: (error: string | null) => void
+  setCardComplete: (complete: boolean) => void
+}) => {
+  const [submitting, setSubmitting] = React.useState(false)
+
+  const sendToken = React.useCallback(
+    async (tokenId: string) => {
+      setSubmitting(true)
+      setError(null)
+      try {
+        const res = await fetch(
+          (process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL || "") +
+            "/store/culqi-charge",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              "x-publishable-api-key":
+                process.env.NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY || "",
+            },
+            body: JSON.stringify({ cart_id: cartId, token: tokenId }),
+          }
+        )
+        const data = await res.json()
+        if (!res.ok) {
+          setError(data.detail || data.message || "El pago fue rechazado")
+          setCardComplete(false)
+        } else {
+          setCardComplete(true)
+        }
+      } catch (err: any) {
+        setError(err.message || "Error al procesar el pago")
+        setCardComplete(false)
+      } finally {
+        setSubmitting(false)
+      }
+    },
+    [cartId, setError, setCardComplete]
+  )
+
+  const handleOpen = () => {
+    const w = window as any
+
+    if (!w.Culqi) {
+      setError("Culqi todavía no cargó, intenta de nuevo en unos segundos")
+      return
+    }
+
+      w.culqi = function () {
+      if (w.Culqi.token) {
+        w.Culqi.close()
+        sendToken(w.Culqi.token.id)
+      } else {
+        console.log("Culqi error:", w.Culqi.error)
+        setError(
+          w.Culqi.error?.user_message || "No se pudo procesar la tarjeta"
+        )
+      }
+    }
+
+    w.Culqi.settings({
+      title: "Tekko",
+      currency: "PEN",
+      amount: amount,
+    })
+    w.Culqi.open()
+  }
+
+  return (
+    <PaymentContainer
+      paymentProviderId={paymentProviderId}
+      selectedPaymentOptionId={selectedPaymentOptionId}
+      paymentInfoMap={paymentInfoMap}
+      disabled={disabled}
+    >
+      {selectedPaymentOptionId === paymentProviderId && (
+        <div className="my-4 transition-all duration-150 ease-in-out">
+          <button
+            type="button"
+            className="btn-secondary whitespace-nowrap px-6"
+            disabled={submitting}
+            onClick={handleOpen}
+          >
+            {submitting ? "Procesando..." : "Ingresar datos de tarjeta"}
+          </button>
+        </div>
+      )}
+    </PaymentContainer>
+  )
+}

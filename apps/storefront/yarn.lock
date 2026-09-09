@@ -7430,6 +7430,7 @@ __metadata:
     qs: "npm:^6.12.1"
     react: "npm:19.0.5"
     react-country-flag: "npm:^3.1.0"
+    react-culqi-next: "npm:^1.0.2"
     react-dom: "npm:19.0.5"
     server-only: "npm:^0.0.1"
     tailwindcss: "npm:^3.0.23"
@@ -8451,6 +8452,15 @@ __metadata:
   peerDependencies:
     react: ">=16"
   checksum: 10/abe587bde4016ea313aa0fbc70d030beaedc86648e55c2f32bf49bd1f279ea2ed24adb64b6451c36ce0f16d609cf469d7e237cf86fe11dc25dc9dced3183a747
+  languageName: node
+  linkType: hard
+
+"react-culqi-next@npm:^1.0.2":
+  version: 1.0.2
+  resolution: "react-culqi-next@npm:1.0.2"
+  peerDependencies:
+    react: ">=16"
+  checksum: 10/d9f463265290cf00c74b0004be3a4a7a5793374730f3ff8dc3553cb2f872b68151cc4c6fc1874b7b39e65808df1d2ae9bb9f20968dd8476710ea91785df6b1e4
   languageName: node
   linkType: hard
 

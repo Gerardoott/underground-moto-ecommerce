@@ -28,6 +28,7 @@
     "qs": "^6.12.1",
     "react": "19.0.5",
     "react-country-flag": "^3.1.0",
+    "react-culqi-next": "^1.0.2",
     "react-dom": "19.0.5",
     "server-only": "^0.0.1",
     "tailwindcss-radix": "^2.8.0",

@@ -34,6 +34,10 @@ export const paymentInfoMap: Record<
     title: "Manual Payment",
     icon: <CreditCard />,
   },
+  pp_culqi_culqi: {
+    title: "Tarjeta (Culqi)",
+    icon: <CreditCard />,
+  },
   // Add more payment providers here
 }
 
@@ -42,6 +46,10 @@ export const isStripeLike = (providerId?: string) => {
   return (
     providerId?.startsWith("pp_stripe_") || providerId?.startsWith("pp_medusa-")
   )
+}
+
+export const isCulqiLike = (providerId?: string) => {
+  return providerId?.startsWith("pp_culqi_")
 }
 
 export const isPaypal = (providerId?: string) => {

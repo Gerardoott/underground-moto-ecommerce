@@ -3,6 +3,7 @@
 import { loadStripe } from "@stripe/stripe-js"
 import React from "react"
 import StripeWrapper from "./stripe-wrapper"
+import CulqiWrapper from "./culqi-wrapper"
 import { HttpTypes } from "@medusajs/types"
 import { isStripeLike } from "@lib/constants"
 
@@ -28,12 +29,8 @@ const PaymentWrapper: React.FC<PaymentWrapperProps> = ({ cart, children }) => {
     (s) => s.status === "pending"
   )
 
-  if (
-    isStripeLike(paymentSession?.provider_id) &&
-    paymentSession &&
-    stripePromise
-  ) {
-    return (
+  const content =
+    isStripeLike(paymentSession?.provider_id) && paymentSession && stripePromise ? (
       <StripeWrapper
         paymentSession={paymentSession}
         stripeKey={stripeKey}
@@ -41,10 +38,11 @@ const PaymentWrapper: React.FC<PaymentWrapperProps> = ({ cart, children }) => {
       >
         {children}
       </StripeWrapper>
+    ) : (
+      <div>{children}</div>
     )
-  }
 
-  return <div>{children}</div>
+  return <CulqiWrapper>{content}</CulqiWrapper>
 }
 
 export default PaymentWrapper

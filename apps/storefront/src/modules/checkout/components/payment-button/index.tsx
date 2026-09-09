@@ -1,6 +1,6 @@
 "use client"
 
-import { isManual, isStripeLike } from "@lib/constants"
+import { isCulqiLike, isManual, isStripeLike } from "@lib/constants"
 import { placeOrder } from "@lib/data/cart"
 import { HttpTypes } from "@medusajs/types"
 import { useElements, useStripe } from "@stripe/react-stripe-js"
@@ -37,6 +37,14 @@ const PaymentButton: React.FC<PaymentButtonProps> = ({
     case isManual(paymentSession?.provider_id):
       return (
         <ManualTestPaymentButton notReady={notReady} data-testid={dataTestId} />
+      )
+    case isCulqiLike(paymentSession?.provider_id):
+      return (
+        <CulqiPaymentButton
+          cart={cart}
+          notReady={notReady}
+          data-testid={dataTestId}
+        />
       )
     default:
       return (
@@ -186,6 +194,63 @@ const ManualTestPaymentButton = ({ notReady }: { notReady: boolean }) => {
       <ErrorMessage
         error={errorMessage}
         data-testid="manual-payment-error-message"
+      />
+    </>
+  )
+}
+
+const CulqiPaymentButton = ({
+  cart,
+  notReady,
+  "data-testid": dataTestId,
+}: {
+  cart: HttpTypes.StoreCart
+  notReady: boolean
+  "data-testid"?: string
+}) => {
+  const [submitting, setSubmitting] = useState(false)
+  const [errorMessage, setErrorMessage] = useState<string | null>(null)
+
+  const paymentSession = cart.payment_collection?.payment_sessions?.find(
+    (s) => s.status === "pending"
+  )
+
+  const hasCharge = Boolean((paymentSession?.data as any)?.charge_id)
+
+  const onPaymentCompleted = async () => {
+    await placeOrder()
+      .catch((err) => {
+        setErrorMessage(err.message)
+      })
+      .finally(() => {
+        setSubmitting(false)
+      })
+  }
+
+  const handlePayment = () => {
+    if (!hasCharge) {
+      setErrorMessage(
+        "Debes ingresar los datos de tu tarjeta antes de confirmar el pedido"
+      )
+      return
+    }
+    setSubmitting(true)
+    onPaymentCompleted()
+  }
+
+  return (
+    <>
+      <button
+        disabled={notReady || submitting || !hasCharge}
+        onClick={handlePayment}
+        className="btn-primary w-full"
+        data-testid={dataTestId}
+      >
+        {submitting ? "Procesando..." : "Confirmar pedido"}
+      </button>
+      <ErrorMessage
+        error={errorMessage}
+        data-testid="culqi-payment-error-message"
       />
     </>
   )

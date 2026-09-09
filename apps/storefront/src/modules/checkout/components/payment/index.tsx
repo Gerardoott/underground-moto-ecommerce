@@ -1,13 +1,14 @@
 "use client"
 
 import { RadioGroup } from "@headlessui/react"
-import { isStripeLike, paymentInfoMap } from "@lib/constants"
+import { isStripeLike, isCulqiLike, paymentInfoMap } from "@lib/constants"
 import { initiatePaymentSession } from "@lib/data/cart"
 import { CheckCircleSolid, CreditCard } from "@medusajs/icons"
 import { clx } from "@medusajs/ui"
 import ErrorMessage from "@modules/checkout/components/error-message"
 import PaymentContainer, {
   StripeCardContainer,
+  CulqiCardContainer,
 } from "@modules/checkout/components/payment-container"
 import Divider from "@modules/common/components/divider"
 import { usePathname, useRouter, useSearchParams } from "next/navigation"
@@ -41,7 +42,7 @@ const Payment = ({
   const setPaymentMethod = async (method: string) => {
     setError(null)
     setSelectedPaymentMethod(method)
-    if (isStripeLike(method)) {
+    if (isStripeLike(method) || isCulqiLike(method)) {
       await initiatePaymentSession(cart, {
         provider_id: method,
       })
@@ -74,7 +75,9 @@ const Payment = ({
     setIsLoading(true)
     try {
       const shouldInputCard =
-        isStripeLike(selectedPaymentMethod) && !activeSession
+        (isStripeLike(selectedPaymentMethod) ||
+          isCulqiLike(selectedPaymentMethod)) &&
+        !activeSession
 
       const checkActiveSession =
         activeSession?.provider_id === selectedPaymentMethod
@@ -150,6 +153,16 @@ const Payment = ({
                         setError={setError}
                         setCardComplete={setCardComplete}
                       />
+                    ) : isCulqiLike(paymentMethod.id) ? (
+                      <CulqiCardContainer
+  paymentProviderId={paymentMethod.id}
+  selectedPaymentOptionId={selectedPaymentMethod}
+  paymentInfoMap={paymentInfoMap}
+  cartId={cart.id}
+  amount={Math.round(Number(cart.total) * 100)}
+  setError={setError}
+  setCardComplete={setCardComplete}
+/>
                     ) : (
                       <PaymentContainer
                         paymentInfoMap={paymentInfoMap}
@@ -187,14 +200,18 @@ const Payment = ({
             onClick={handleSubmit}
             disabled={
               isLoading ||
-              (isStripeLike(selectedPaymentMethod) && !cardComplete) ||
+              ((isStripeLike(selectedPaymentMethod) ||
+                isCulqiLike(selectedPaymentMethod)) &&
+                !cardComplete) ||
               (!selectedPaymentMethod && !paidByGiftcard)
             }
             data-testid="submit-payment-button"
           >
             {isLoading
               ? "Cargando..."
-              : !activeSession && isStripeLike(selectedPaymentMethod)
+              : !activeSession &&
+                (isStripeLike(selectedPaymentMethod) ||
+                  isCulqiLike(selectedPaymentMethod))
               ? "Ingresar datos de tarjeta"
               : "Continuar a revisión"}
           </button>
