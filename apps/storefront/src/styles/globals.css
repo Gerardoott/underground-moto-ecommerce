@@ -197,3 +197,11 @@ body {
     @apply text-[32px] leading-[44px] font-semibold;
   }
 }
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus {
+  -webkit-text-fill-color: var(--tekko-bone);
+  -webkit-box-shadow: 0 0 0px 1000px var(--tekko-surface) inset;
+  transition: background-color 5000s ease-in-out 0s;
+  caret-color: var(--tekko-bone);
+}

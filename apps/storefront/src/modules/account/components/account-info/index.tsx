@@ -1,9 +1,10 @@
 import { Disclosure } from "@headlessui/react"
-import { Badge, Button, clx } from "@medusajs/ui"
+import { clx } from "@medusajs/ui"
 import { useEffect } from "react"
 
 import useToggleState from "@lib/hooks/use-toggle-state"
 import { useFormStatus } from "react-dom"
+import { SubmitButton } from "@modules/checkout/components/submit-button"
 
 type AccountInfoProps = {
   label: string
@@ -22,7 +23,7 @@ const AccountInfo = ({
   isSuccess,
   isError,
   clearState,
-  errorMessage = "An error occurred, please try again",
+  errorMessage = "Ocurrió un error, por favor intenta de nuevo",
   children,
   'data-testid': dataTestid
 }: AccountInfoProps) => {
@@ -42,29 +43,28 @@ const AccountInfo = ({
   }, [isSuccess, close])
 
   return (
-    <div className="text-small-regular" data-testid={dataTestid}>
+    <div className="font-mono text-sm" data-testid={dataTestid}>
       <div className="flex items-end justify-between">
         <div className="flex flex-col">
-          <span className="uppercase text-ui-fg-base">{label}</span>
+          <span className="uppercase text-bone-muted text-xs">{label}</span>
           <div className="flex items-center flex-1 basis-0 justify-end gap-x-4">
             {typeof currentInfo === "string" ? (
-              <span className="font-semibold" data-testid="current-info">{currentInfo}</span>
+              <span className="text-bone" data-testid="current-info">{currentInfo}</span>
             ) : (
               currentInfo
             )}
           </div>
         </div>
         <div>
-          <Button
-            variant="secondary"
-            className="w-[100px] min-h-[25px] py-1"
+          <button
+            className="btn-secondary min-h-[25px] py-1 px-4 whitespace-nowrap"
             onClick={handleToggle}
             type={state ? "reset" : "button"}
             data-testid="edit-button"
             data-active={state}
           >
-            {state ? "Cancel" : "Edit"}
-          </Button>
+            {state ? "Cancelar" : "Editar"}
+          </button>
         </div>
       </div>
 
@@ -81,9 +81,9 @@ const AccountInfo = ({
           )}
           data-testid="success-message"
         >
-          <Badge className="p-2 my-4" color="green">
-            <span>{label} updated succesfully</span>
-          </Badge>
+          <div className="p-2 my-4 border border-violet text-violet inline-block">
+            <span>{label} actualizado correctamente</span>
+          </div>
         </Disclosure.Panel>
       </Disclosure>
 
@@ -100,9 +100,9 @@ const AccountInfo = ({
           )}
           data-testid="error-message"
         >
-          <Badge className="p-2 my-4" color="red">
+          <div className="p-2 my-4 border border-danger text-danger inline-block">
             <span>{errorMessage}</span>
-          </Badge>
+          </div>
         </Disclosure.Panel>
       </Disclosure>
 
@@ -120,14 +120,12 @@ const AccountInfo = ({
           <div className="flex flex-col gap-y-2 py-4">
             <div>{children}</div>
             <div className="flex items-center justify-end mt-2">
-              <Button
-                isLoading={pending}
-                className="w-full small:max-w-[140px]"
-                type="submit"
+              <SubmitButton
+                className="w-full small:w-auto small:px-8 whitespace-nowrap"
                 data-testid="save-button"
               >
-                Save changes
-              </Button>
+                Guardar cambios
+              </SubmitButton>
             </div>
           </div>
         </Disclosure.Panel>
