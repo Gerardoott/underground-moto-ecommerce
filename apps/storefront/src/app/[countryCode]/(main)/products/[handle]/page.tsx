@@ -10,6 +10,8 @@ type Props = {
   searchParams: Promise<{ v_id?: string }>
 }
 
+const SITE_URL = process.env.NEXT_PUBLIC_BASE_URL || "https://gettekko.com"
+
 export async function generateStaticParams() {
   try {
     const countryCodes = await listRegions().then((regions) =>
@@ -87,12 +89,40 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
     notFound()
   }
 
+  const description =
+    product.description?.slice(0, 155) ||
+    `${product.title} — moto/underground streetwear de Tekko. Envíos a todo Perú.`
+
+  const pageUrl = `${SITE_URL}/${params.countryCode}/products/${handle}`
+
   return {
-    title: `${product.title} | Medusa Store`,
-    description: `${product.title}`,
+    title: `${product.title} | Tekko`,
+    description,
+    alternates: {
+      canonical: pageUrl,
+    },
     openGraph: {
-      title: `${product.title} | Medusa Store`,
-      description: `${product.title}`,
+      title: `${product.title} | Tekko`,
+      description,
+      url: pageUrl,
+      siteName: "Tekko",
+      type: "website",
+      locale: "es_PE",
+      images: product.thumbnail
+        ? [
+            {
+              url: product.thumbnail,
+              width: 1200,
+              height: 1200,
+              alt: product.title,
+            },
+          ]
+        : [],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `${product.title} | Tekko`,
+      description,
       images: product.thumbnail ? [product.thumbnail] : [],
     },
   }
@@ -120,12 +150,42 @@ export default async function ProductPage(props: Props) {
     notFound()
   }
 
+  const firstVariant = pricedProduct.variants?.[0]
+  const price = firstVariant?.calculated_price?.calculated_amount
+
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    name: pricedProduct.title,
+    description: pricedProduct.description || pricedProduct.title,
+    image: pricedProduct.thumbnail ? [pricedProduct.thumbnail] : [],
+    sku: firstVariant?.sku || pricedProduct.id,
+    brand: {
+      "@type": "Brand",
+      name: "Tekko",
+    },
+    offers: {
+      "@type": "Offer",
+      url: `${SITE_URL}/${params.countryCode}/products/${params.handle}`,
+      priceCurrency: region.currency_code?.toUpperCase() || "PEN",
+      price: price ?? undefined,
+      availability: "https://schema.org/InStock",
+      itemCondition: "https://schema.org/NewCondition",
+    },
+  }
+
   return (
-    <ProductTemplate
-      product={pricedProduct}
-      region={region}
-      countryCode={params.countryCode}
-      images={images}
-    />
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+      <ProductTemplate
+        product={pricedProduct}
+        region={region}
+        countryCode={params.countryCode}
+        images={images}
+      />
+    </>
   )
 }

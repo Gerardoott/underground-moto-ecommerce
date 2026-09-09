@@ -17,6 +17,8 @@ type Props = {
 
 export const PRODUCT_LIMIT = 12
 
+const SITE_URL = process.env.NEXT_PUBLIC_BASE_URL || "https://gettekko.com"
+
 export async function generateStaticParams() {
   const { collections } = await listCollections({
     fields: "*products",
@@ -58,12 +60,25 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
     notFound()
   }
 
-  const metadata = {
-    title: `${collection.title} | Medusa Store`,
-    description: `${collection.title} collection`,
-  } as Metadata
+  const title = `${collection.title} | Tekko`
+  const description = `Descubrí la colección ${collection.title} en Tekko — moto/underground streetwear con envíos a todo Perú.`
+  const pageUrl = `${SITE_URL}/${params.countryCode}/collections/${params.handle}`
 
-  return metadata
+  return {
+    title,
+    description,
+    alternates: {
+      canonical: pageUrl,
+    },
+    openGraph: {
+      title,
+      description,
+      url: pageUrl,
+      siteName: "Tekko",
+      type: "website",
+      locale: "es_PE",
+    },
+  }
 }
 
 export default async function CollectionPage(props: Props) {

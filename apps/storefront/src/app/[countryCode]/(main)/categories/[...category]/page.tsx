@@ -15,6 +15,8 @@ type Props = {
   }>
 }
 
+const SITE_URL = process.env.NEXT_PUBLIC_BASE_URL || "https://gettekko.com"
+
 export async function generateStaticParams() {
   const product_categories = await listCategories()
 
@@ -47,15 +49,25 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
   try {
     const productCategory = await getCategoryByHandle(params.category)
 
-    const title = productCategory.name + " | Medusa Store"
-
-    const description = productCategory.description ?? `${title} category.`
+    const title = `${productCategory.name} | Tekko`
+    const description =
+      productCategory.description ||
+      `Descubrí ${productCategory.name} en Tekko — moto/underground streetwear con envíos a todo Perú.`
+    const pageUrl = `${SITE_URL}/${params.countryCode}/categories/${params.category.join("/")}`
 
     return {
-      title: `${title} | Medusa Store`,
+      title,
       description,
       alternates: {
-        canonical: `${params.category.join("/")}`,
+        canonical: pageUrl,
+      },
+      openGraph: {
+        title,
+        description,
+        url: pageUrl,
+        siteName: "Tekko",
+        type: "website",
+        locale: "es_PE",
       },
     }
   } catch (error) {
