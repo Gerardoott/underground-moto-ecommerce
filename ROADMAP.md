@@ -34,6 +34,7 @@ Objetivo: operar de forma sostenible en Perú antes de expandirse.
 
 - [ ] Integrar **Yape** como método de pago (fast follow post-lanzamiento, ver `ARCHITECTURE.md` §4).
 - [ ] **Personalización de productos** (iniciativa grande, requiere su propio ADR de alcance antes de construir): editor donde el cliente diseñe camisetas/hoodies en blanco, colocando imágenes o gráficos propios de la marca dentro de zonas de impresión predefinidas. Evaluado en sesión de chat: arrancar con posicionamiento manual tipo Printful (sin IA); boceto generado por IA queda como posible mejora posterior, no como base — implica costo por generación y sigue necesitando conversión manual a diseño imprimible.
+- [ ] **Maniquí virtual y combinador de conjuntos** (iniciativa grande, ver `docs/decisions/0005-maniqui-virtual-conjuntos.md`): sección donde el cliente combina prendas del catálogo (conjuntos curados por Tekko + combinación libre) sobre un maniquí plano en capas con vistas de frente/espalda, para facilitar la compra de conjuntos completos. Distinta de la personalización — acá se combinan prendas ya existentes, no se imprime diseño propio. Bloqueante antes de construir: fotos aisladas (frente + espalda, fondo transparente) de cada producto participante — especificación completa de fotografía y herramientas documentada en el ADR. Maniquí 3D interactivo/rotable queda anotado como visión futura, fuera de alcance de esta iniciativa.
 - [ ] Automatizar cotización/generación de guías de envío (API Olva o Shalom).
 - [ ] Códigos de descuento y promociones.
 - [ ] Reviews de producto.
