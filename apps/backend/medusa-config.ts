@@ -12,5 +12,22 @@ module.exports = defineConfig({
       jwtSecret: process.env.JWT_SECRET,
       cookieSecret: process.env.COOKIE_SECRET,
     }
-  }
+  },
+  modules: [
+    {
+      resolve: "@medusajs/medusa/payment",
+      options: {
+        providers: [
+          {
+            resolve: "./src/modules/culqi",
+            id: "culqi",
+            options: {
+              secretKey: process.env.CULQI_SECRET_KEY,
+              publicKey: process.env.CULQI_PUBLIC_KEY,
+            },
+          },
+        ],
+      },
+    },
+  ],
 })
