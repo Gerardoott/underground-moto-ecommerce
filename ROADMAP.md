@@ -23,7 +23,7 @@ Objetivo: vender el primer producto real a un comprador peruano.
 - [ ] Panel admin de Medusa configurado para gestión de pedidos e inventario — **en progreso**.
 - [x] Envíos: proceso manual configurado y probado — ubicación "Almacén Lima" con canal de ventas y proveedor Manual conectados, zona de servicio Perú, opción "Envío estándar" a S/12. Confirmado funcionando en el checkout real.
 - [x] Autenticación de clientes (cuenta, historial de pedidos) y checkout como invitado — login y registro verificados funcionando; historial de pedidos con detalle completo (envío, pago, resumen) verificado.
-- [x] Notificaciones por email (confirmación de pedido) — integrado con Resend (Notification Module Provider custom), plantilla de marca en español, probado con pedido real de punta a punta. Pendiente: verificar dominio `gettekko.com` en Resend para enviar desde un remitente propio en vez de `onboarding@resend.dev` (necesario antes de producción, no bloquea desarrollo).
+- [x] Notificaciones por email (confirmación de pedido) — integrado con Resend (Notification Module Provider custom), plantilla de marca en español, dominio `gettekko.com` verificado y enviando desde `pedidos@gettekko.com`. Probado de punta a punta con pedidos reales.
 - [ ] SEO básico (metadata, sitemap, datos estructurados de producto) — **parcial**: título de la home ya actualizado, faltan categorías/colecciones/producto individual.
 - [ ] Analítica básica (PostHog) + monitoreo de errores (Sentry).
 - [ ] Deploy: storefront en Vercel, backend en Railway, CI en GitHub Actions.
