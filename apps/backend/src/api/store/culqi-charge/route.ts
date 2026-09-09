@@ -40,9 +40,15 @@ export async function POST(
     (s: any) => s.provider_id === "pp_culqi_culqi"
   )
 
-  if (!cart || !session) {
+   if (!cart || !session) {
     return res.status(400).json({
-      message: "No se encontró una sesión de pago de Culqi para este carrito",
+      message: "No se encontrÃ³ una sesiÃ³n de pago de Culqi para este carrito",
+    })
+  }
+
+  if (!cart.email) {
+    return res.status(400).json({
+      message: "El carrito no tiene un email asociado. AgregÃ¡ un email antes de confirmar el pago.",
     })
   }
 
@@ -54,7 +60,7 @@ export async function POST(
 
   try {
     const charge = await culqi.charges.createCharge({
-      amount: amountInCents,
+      amount: String(amountInCents),
       currency_code: cart.currency_code.toUpperCase(),
       email: cart.email,
       source_id: token,

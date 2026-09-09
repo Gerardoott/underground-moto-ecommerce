@@ -1,4 +1,4 @@
-import { AbstractPaymentProvider, MedusaError } from "@medusajs/framework/utils"
+import { AbstractPaymentProvider, MedusaError, BigNumber } from "@medusajs/framework/utils"
 import { Logger } from "@medusajs/framework/types"
 import {
   InitiatePaymentInput,
@@ -19,6 +19,8 @@ import {
   UpdatePaymentOutput,
   RetrievePaymentInput,
   RetrievePaymentOutput,
+  ProviderWebhookPayload,
+  WebhookActionResult,
 } from "@medusajs/framework/types"
 import Culqi from "culqi-node"
 import { randomUUID } from "crypto"
@@ -215,6 +217,24 @@ class CulqiPaymentProviderService extends AbstractPaymentProvider<Options> {
     }
 
     return { status: "pending", data: charge }
+  }
+
+  async getWebhookActionAndData(
+    payload: ProviderWebhookPayload["payload"]
+  ): Promise<WebhookActionResult> {
+    const { data } = payload
+
+    this.logger_.info(
+      `Webhook de Culqi recibido, sin procesar todavÃ­a: ${JSON.stringify(data)}`
+    )
+
+    return {
+      action: "not_supported",
+      data: {
+        session_id: "",
+        amount: new BigNumber(0),
+      },
+    }
   }
 }
 
