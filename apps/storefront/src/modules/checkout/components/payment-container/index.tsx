@@ -10,6 +10,7 @@ import { CardElement } from "@stripe/react-stripe-js"
 import { StripeCardElementOptions } from "@stripe/stripe-js"
 import PaymentTest from "../payment-test"
 import { StripeContext } from "../payment-wrapper/stripe-wrapper"
+import { refreshCartCache } from "@lib/data/cart"
 
 type PaymentContainerProps = {
   paymentProviderId: string
@@ -168,6 +169,7 @@ export const CulqiCardContainer = ({
           setCardComplete(false)
         } else {
           setCardComplete(true)
+          await refreshCartCache()
         }
       } catch (err: any) {
         setError(err.message || "Error al procesar el pago")

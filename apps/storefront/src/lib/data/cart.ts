@@ -255,6 +255,11 @@ export async function initiatePaymentSession(
     .catch(medusaError)
 }
 
+export async function refreshCartCache() {
+  const cartCacheTag = await getCacheTag("carts")
+  revalidateTag(cartCacheTag)
+}
+
 export async function applyPromotions(codes: string[]) {
   const cartId = await getCartId()
 
