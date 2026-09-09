@@ -106,14 +106,14 @@ const AccountInfo = ({
         </Disclosure.Panel>
       </Disclosure>
 
-      <Disclosure>
+       <Disclosure>
         <Disclosure.Panel
           static
           className={clx(
             "transition-[max-height,opacity] duration-300 ease-in-out overflow-visible",
             {
-              "max-h-[1000px] opacity-100": state,
-              "max-h-0 opacity-0": !state,
+              "max-h-[1000px] opacity-100 pointer-events-auto": state,
+              "max-h-0 opacity-0 pointer-events-none": !state,
             }
           )}
         >
