@@ -5,12 +5,35 @@ type OrderDetailsProps = {
   showStatus?: boolean
 }
 
-const OrderDetails = ({ order, showStatus }: OrderDetailsProps) => {
-  const formatStatus = (str: string) => {
-    const formatted = str.split("_").join(" ")
+const fulfillmentStatusMap: Record<string, string> = {
+  not_fulfilled: "No despachado",
+  partially_fulfilled: "Despachado parcialmente",
+  fulfilled: "Despachado",
+  partially_shipped: "Enviado parcialmente",
+  shipped: "Enviado",
+  partially_delivered: "Entregado parcialmente",
+  delivered: "Entregado",
+  canceled: "Cancelado",
+}
 
-    return formatted.slice(0, 1).toUpperCase() + formatted.slice(1)
-  }
+const paymentStatusMap: Record<string, string> = {
+  not_paid: "No pagado",
+  awaiting: "Pendiente",
+  captured: "Pagado",
+  authorized: "Autorizado",
+  partially_authorized: "Autorizado parcialmente",
+  partially_captured: "Pagado parcialmente",
+  partially_refunded: "Reembolsado parcialmente",
+  refunded: "Reembolsado",
+  canceled: "Cancelado",
+  requires_action: "Requiere acción",
+}
+
+const OrderDetails = ({ order, showStatus }: OrderDetailsProps) => {
+  const formatFulfillmentStatus = (str: string) =>
+    fulfillmentStatusMap[str] ?? str
+
+  const formatPaymentStatus = (str: string) => paymentStatusMap[str] ?? str
 
   return (
     <div className="font-mono text-sm text-bone-muted">
@@ -37,7 +60,7 @@ const OrderDetails = ({ order, showStatus }: OrderDetailsProps) => {
             <p>
               Estado del pedido:{" "}
               <span className="text-bone-muted" data-testid="order-status">
-                {formatStatus(order.fulfillment_status)}
+                {formatFulfillmentStatus(order.fulfillment_status)}
               </span>
             </p>
             <p>
@@ -46,7 +69,7 @@ const OrderDetails = ({ order, showStatus }: OrderDetailsProps) => {
                 className="text-bone-muted"
                 data-testid="order-payment-status"
               >
-                {formatStatus(order.payment_status)}
+                {formatPaymentStatus(order.payment_status)}
               </span>
             </p>
           </>
