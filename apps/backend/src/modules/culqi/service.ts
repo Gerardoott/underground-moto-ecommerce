@@ -93,9 +93,20 @@ class CulqiPaymentProviderService extends AbstractPaymentProvider<Options> {
       )
     }
 
+    // Captura automática: como el pedido se está confirmando ahora,
+    // capturamos el cargo autorizado de inmediato en vez de dejarlo
+    // pendiente de captura manual.
+    const captured = await this.client.charges.captureCharge({
+      id: chargeId,
+    })
+
     return {
-      data: input.data,
-      status: "authorized",
+      data: {
+        ...input.data,
+        captured: true,
+        culqi_capture_response: captured,
+      },
+      status: "captured",
     }
   }
 

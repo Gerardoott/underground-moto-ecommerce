@@ -36,12 +36,6 @@ export async function POST(
 
   const cart = carts[0]
 
-  console.log("CART_ID recibido:", cart_id)
-  console.log(
-    "PAYMENT COLLECTION:",
-    JSON.stringify(cart?.payment_collection, null, 2)
-  )
-
   const session = cart?.payment_collection?.payment_sessions?.find(
     (s: any) => s.provider_id === "pp_culqi_culqi"
   )
