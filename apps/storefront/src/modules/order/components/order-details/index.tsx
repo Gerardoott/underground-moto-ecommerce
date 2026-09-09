@@ -1,4 +1,5 @@
 import { HttpTypes } from "@medusajs/types"
+import { formatDate } from "@lib/util/format-date"
 
 type OrderDetailsProps = {
   order: HttpTypes.StoreOrder
@@ -47,7 +48,7 @@ const OrderDetails = ({ order, showStatus }: OrderDetailsProps) => {
       <p className="mt-2">
         Fecha del pedido:{" "}
         <span data-testid="order-date">
-          {new Date(order.created_at).toDateString()}
+          {formatDate(order.created_at)}
         </span>
       </p>
       <p className="mt-2 text-violet">
