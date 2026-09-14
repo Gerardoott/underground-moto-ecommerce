@@ -69,6 +69,9 @@ module.exports = defineConfig({
               region: "auto",
               bucket: process.env.R2_BUCKET,
               endpoint: process.env.R2_ENDPOINT,
+              additional_client_config: {
+                forcePathStyle: true,
+              },
             },
           },
         ],
