@@ -31,4 +31,4 @@ pnpm-debug.log*
 pgdata/
 
 # Yarn Berry cache
-.yarn/
+/.yarn/
