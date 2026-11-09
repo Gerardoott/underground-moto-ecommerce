@@ -47,4 +47,4 @@ pnpm dev
 
 ## Estado del proyecto
 
-Fase actual: **Fase 0 — Fundamentos**. Ver [`ROADMAP.md`](./ROADMAP.md) para el detalle.
+Fase actual: **Fase 1 — MVP Perú**. Ver [`ROADMAP.md`](./ROADMAP.md) para el detalle.
